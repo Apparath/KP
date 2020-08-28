@@ -1,0 +1,22 @@
+﻿<Page x:Class="KP.Pages.Auth"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:KP.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="419" d:DesignWidth="792"
+      Title="Auth">
+
+    <Grid>
+        <TextBlock Text="Логин:"/>
+        <TextBox x:Name="login"/>
+        <TextBlock Text="Пароль:"/>
+        <PasswordBox x:Name="password"/>
+        <TextBlock x:Name="captcha"/>
+        <TextBox x:Name="verify"/>
+        <Button x:Name="refresh" Content="Обновить" Click="refresh_Click"/>
+        <Button x:Name="register" Content="Зарегистрироваться" Click="register_Click"/>
+        <Button x:Name="enter" Content="Войти" Click="enter_Click"/>
+    </Grid>
+</Page>
