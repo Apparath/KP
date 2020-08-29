@@ -9,6 +9,26 @@
       Title="Reg">
 
     <Grid>
-        
+        <Button x:Name="back" Content="Назад" Click="back_Click"/>
+        <Button x:Name="refresh" Content="⭮" Click="refresh_Click"/>
+        <TextBlock Text="Логин:"/>
+        <TextBox x:Name="login"/>
+        <TextBlock Text="Пароль:"/>
+        <TextBox x:Name="password"/>
+        <TextBlock Text="Повтор:"/>
+        <TextBox x:Name="repeat"/>
+        <TextBlock Text="Имя:"/>
+        <TextBox x:Name="name"/>
+        <TextBlock Text="Фамилия:"/>
+        <TextBox x:Name="surname"/>
+        <TextBlock Text="Пол:"/>
+        <ComboBox x:Name="gender">
+            <ComboBoxItem Content="М (Мужской)"/>
+            <ComboBoxItem Content="Ж (Женский)"/>
+        </ComboBox>
+        <TextBlock Text="Страна:"/>
+        <ComboBox Name="country"/>
+        <Image x:Name="image"/>
+        <Button x:Name="register" Content="Зарегистрироваться" Click="register_Click"/>
     </Grid>
 </Page>

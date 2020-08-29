@@ -4,6 +4,37 @@
              xmlns:local="clr-namespace:KP"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style TargetType="Grid">
+            <Setter Property="Background" Value="#FF404040"/>
+        </Style>
+        <Style x:Key="AuthBlock" TargetType="TextBlock">
+            <Setter Property="Grid.Column" Value="1"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="AuthBox" TargetType="TextBox">
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Grid.Column" Value="1"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="AuthPass" TargetType="PasswordBox">
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="Grid.Column" Value="1"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="AuthBtn" TargetType="Button">
+            <Setter Property="Background" Value="Gray"/>
+            <Setter Property="Grid.Column" Value="1"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
     </Application.Resources>
 </Application>

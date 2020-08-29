@@ -24,5 +24,20 @@ namespace KP.Pages
         {
             InitializeComponent();
         }
+
+        private void back_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.GoBack();
+        }
+
+        private void refresh_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Refresh();
+        }
+
+        private void register_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
