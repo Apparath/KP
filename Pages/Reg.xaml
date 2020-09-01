@@ -9,26 +9,40 @@
       Title="Reg">
 
     <Grid>
-        <Button x:Name="back" Content="Назад" Click="back_Click"/>
-        <Button x:Name="refresh" Content="⭮" Click="refresh_Click"/>
-        <TextBlock Text="Логин:"/>
-        <TextBox x:Name="login"/>
-        <TextBlock Text="Пароль:"/>
-        <TextBox x:Name="password"/>
-        <TextBlock Text="Повтор:"/>
-        <TextBox x:Name="repeat"/>
-        <TextBlock Text="Имя:"/>
-        <TextBox x:Name="name"/>
-        <TextBlock Text="Фамилия:"/>
-        <TextBox x:Name="surname"/>
-        <TextBlock Text="Пол:"/>
-        <ComboBox x:Name="gender">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="246"/>
+            <ColumnDefinition Width="246"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Button Style="{StaticResource RegBtn}" x:Name="back" Content="Назад" Click="back_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Width="60" Height="25"/>
+        <Button Style="{StaticResource RegBtn}" x:Name="update" Content="⭮" Click="update_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,10,0" Width="25" Grid.Column="2" Height="25"/>
+        <TextBlock Style="{StaticResource RegBlock}" Text="Логин:" VerticalAlignment="Center" Margin="0,0,174,240"/>
+        <TextBox Style="{StaticResource RegBox}" x:Name="login" VerticalAlignment="Center" Margin="72,0,0,240"/>
+        <TextBlock Style="{StaticResource RegBlock}" Text="Пароль:" VerticalAlignment="Center" Margin="0,0,174,195"/>
+        <PasswordBox Style="{StaticResource RegPass}" x:Name="password" VerticalAlignment="Center" Margin="72,0,0,195"/>
+        <TextBlock Style="{StaticResource RegBlock}" Text="Повтор:" VerticalAlignment="Center" Margin="0,0,174,150"/>
+        <PasswordBox Style="{StaticResource RegPass}" x:Name="repeat" VerticalAlignment="Center" Margin="72,0,0,150"/>
+        <TextBlock Style="{StaticResource RegBlock}" Text="Имя:" VerticalAlignment="Center" Margin="0,0,174,60"/>
+        <TextBox Style="{StaticResource RegBox}" x:Name="name" VerticalAlignment="Center" Margin="72,0,0,60"/>
+        <TextBlock Style="{StaticResource RegBlock}" Text="Фамилия:" VerticalAlignment="Center" Margin="0,0,174,15"/>
+        <TextBox Style="{StaticResource RegBox}" x:Name="surname" VerticalAlignment="Center" Margin="72,0,0,15"/>
+        <TextBlock Style="{StaticResource RegBlock}" Text="Пол:" VerticalAlignment="Center" Margin="0,60,174,0"/>
+        <ComboBox x:Name="gender" VerticalAlignment="Center" Grid.Column="1" Margin="72,60,0,0">
+            <ComboBoxItem Content="Не выбрано" IsSelected="True"/>
             <ComboBoxItem Content="М (Мужской)"/>
             <ComboBoxItem Content="Ж (Женский)"/>
         </ComboBox>
-        <TextBlock Text="Страна:"/>
-        <ComboBox Name="country"/>
-        <Image x:Name="image"/>
-        <Button x:Name="register" Content="Зарегистрироваться" Click="register_Click"/>
+        <TextBlock Style="{StaticResource RegBlock}" Text="Страна:" VerticalAlignment="Center" Margin="0,105,174,0"/>
+        <ComboBox Name="country" IsEditable="True" VerticalAlignment="Center" Grid.Column="1" Margin="72,105,0,0"/>
+        <Image x:Name="image" PreviewMouseLeftButtonUp="image_PreviewMouseLeftButtonUp" VerticalAlignment="Center" Height="200" Grid.Column="2" Width="200" Margin="0,0,0,90">
+            <Image.OpacityMask>
+                <ImageBrush/>
+            </Image.OpacityMask>
+        </Image>
+        <TextBlock Style="{StaticResource RegBlock}" x:Name="captcha" VerticalAlignment="Center" Margin="0,170,259,0"/>
+        <TextBox Style="{StaticResource RegBox}" x:Name="verify" VerticalAlignment="Center" Margin="236,170,155,0"/>
+        <Button Style="{StaticResource RegBtn}" x:Name="refresh" Content="⭮" Click="refresh_Click" VerticalAlignment="Center" Grid.Column="1" Width="25" Margin="210,170,0,0"/>
+        <Button Style="{StaticResource RegBtn}" x:Name="register" Content="Зарегистрироваться" Click="register_Click" VerticalAlignment="Center" Height="25" Grid.Column="1" Margin="0,290,0,0" Width="170"/>
     </Grid>
 </Page>

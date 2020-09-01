@@ -18,9 +18,9 @@
         <TextBox Style="{StaticResource AuthBox}" x:Name="login" Margin="60,0,10,105"/>
         <TextBlock Style="{StaticResource AuthBlock}" Text="Пароль:" Margin="0,0,0,55" HorizontalAlignment="Left"/>
         <PasswordBox Style="{StaticResource AuthPass}" x:Name="password" Margin="60,0,0,55"/>
-        <TextBlock Style="{StaticResource AuthBlock}" x:Name="captcha" Margin="0,0,146,0" TextAlignment="Center" FontFamily="Mistral" FontSize="20" Visibility="Hidden"/>
-        <TextBox Style="{StaticResource AuthBox}" x:Name="verify" Margin="120,0,26,0" Visibility="Hidden"/>
-        <Button Style="{StaticResource AuthBtn}" x:Name="refresh" Content="⭮" Click="refresh_Click" Margin="239,0,0,0" Visibility="Hidden"/>
+        <TextBlock Style="{StaticResource AuthBlock}" x:Name="captcha" Margin="0,0,129,0" TextAlignment="Center" FontFamily="Mistral" FontSize="20" Visibility="Hidden"/>
+        <TextBox Style="{StaticResource AuthBox}" x:Name="verify" Margin="103,0,26,0" Visibility="Hidden"/>
+        <Button Style="{StaticResource AuthBtn}" x:Name="refresh" Content="⭮" Click="refresh_Click" Margin="205,0,0,0" Visibility="Hidden"/>
         <Button Style="{StaticResource AuthBtn}" x:Name="register" Content="Регистрация" Click="register_Click" Margin="0,55,86,0"/>
         <Button Style="{StaticResource AuthBtn}" x:Name="enter" Content="Вход" Click="enter_Click" Margin="144,55,0,0"/>
     </Grid>
