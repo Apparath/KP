@@ -11,6 +11,11 @@ namespace KP.Classes
 {
     class Get
     {
+        /// <summary>
+        /// Метод получения названий стран из бд в выпадающий список
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <param name="country"></param>
         public static void Countries(SqlConnection connection, ComboBox country)
         {
             using (SqlCommand command = connection.CreateCommand())
@@ -30,6 +35,11 @@ namespace KP.Classes
             }
         }
 
+        /// <summary>
+        /// Метод получения изображения из бд
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
         public static byte[] ImageFromFile(string filePath)
         {
             FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);

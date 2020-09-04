@@ -18,17 +18,17 @@ namespace KP.Pages
         }
 
         /// <summary>
-        /// Метод по нажатию кнопки "Зарегистрироваться"
+        /// Метод перехода на форму регистрации по нажатию кнопки "Зарегистрироваться"
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void register_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("Pages\\Reg.xaml", UriKind.RelativeOrAbsolute));
+            NavigationService.Navigate(new Uri("Pages/Reg.xaml", UriKind.RelativeOrAbsolute));
         }
 
         /// <summary>
-        /// Метод по нажатию кнопки "Обновить"
+        /// Метод обновления капчи по нажатию кнопки "Обновить"
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -48,7 +48,7 @@ namespace KP.Pages
         {
             while (reader.Read()) Classes.Login.Value = login.Text;
 
-            NavigationService.Navigate(new Uri("Pages\\User.xaml", UriKind.RelativeOrAbsolute));
+            NavigationService.Navigate(new Uri("Pages/User.xaml", UriKind.RelativeOrAbsolute));
 
             login.Text = "";
             errorMessage = false;
@@ -58,7 +58,7 @@ namespace KP.Pages
         }
 
         /// <summary>
-        /// Метод по нажатию на кнопку "Войти"
+        /// Метод авторизации по нажатию на кнопку "Войти"
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

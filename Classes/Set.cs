@@ -1,12 +1,8 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -15,6 +11,11 @@ namespace KP.Classes
 {
     class Set
     {
+        /// <summary>
+        /// Метод передачи файла изображения в форму изображения
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         public static BitmapImage ImageFromFile(out FileInfo file)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -38,6 +39,11 @@ namespace KP.Classes
             return bitmap;
         }
 
+        /// <summary>
+        /// Метод передачи изображения из бд в выпадающий список
+        /// </summary>
+        /// <param name="comboBox"></param>
+        /// <returns></returns>
         public static BitmapImage ImageFromDB(ComboBox comboBox)
         {
             BitmapImage bitmap = new BitmapImage();
@@ -54,10 +60,10 @@ namespace KP.Classes
 
                         command.Parameters.AddWithValue("@name", comboBox.SelectedItem);
 
-                        if (comboBox.SelectedItem.ToString().Contains("Не выбрано"))
+                        if (comboBox.SelectedIndex == 0)
                         {
                             bitmap.BeginInit();
-                            bitmap.UriSource = new Uri("/Audiophiles;component/Resources/addImage.png", UriKind.RelativeOrAbsolute);
+                            bitmap.UriSource = new Uri("/KP;component/Resources/addImage.png", UriKind.RelativeOrAbsolute);
                             bitmap.EndInit();
                         }
                         else

@@ -1,20 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace KP.Pages
 {
@@ -26,13 +17,43 @@ namespace KP.Pages
         public Reg()
         {
             InitializeComponent();
+
+            Classes.Captcha.Refresh(captcha, verify);
+
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connStr"].ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    Classes.Get.Countries(connection, country);
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
 
+        /// <summary>
+        /// Метод возврата на страницу авторизации по нажатию кнопки "Назад"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void back_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
         }
 
+        /// <summary>
+        /// Метод обновления капчи по нажатию кнопки "Обновить"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void refresh_Click(object sender, RoutedEventArgs e)
         {
             Classes.Captcha.Refresh(captcha, verify);
@@ -40,6 +61,11 @@ namespace KP.Pages
 
         private FileInfo file; //Для передачи пути изображения
 
+        /// <summary>
+        /// Метод регистрации пользователя понажатию кнопки "Зарегистрироваться"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void register_Click(object sender, RoutedEventArgs e)
         {
             if (login.Text != "" && password.Password != "" && repeat.Password != "" && (surname.Text != "" || name.Text != ""))
@@ -65,19 +91,21 @@ namespace KP.Pages
 
                                     switch (gender.SelectedIndex)
                                     {
-                                        case 0: 
+                                        case 1: 
                                             command.Parameters.AddWithValue("@gender", "М");
                                             break;
-                                        case 1: 
+                                        case 2: 
                                             command.Parameters.AddWithValue("@gender", "Ж");
                                             break;
                                         default:
+                                            command.Parameters.AddWithValue("@gender", DBNull.Value);
                                             break;
                                     }
 
-                                    command.Parameters.AddWithValue("@countryid", country.SelectedIndex);
+                                    if (country.SelectedIndex != 0) command.Parameters.AddWithValue("@countryid", country.SelectedIndex);
+                                    else command.Parameters.AddWithValue("@countryid", DBNull.Value);
 
-                                    if (image.Source != null)
+                                    if (!image.Source.ToString().Contains("addImage.png"))
                                     {
                                         using (SqlCommand command1 = connection.CreateCommand())
                                         {
@@ -85,28 +113,17 @@ namespace KP.Pages
 
                                             command1.Parameters.AddWithValue("@name", file.Name);
 
-                                            using (SqlDataReader reader = command1.ExecuteReader())
+                                            int i = Convert.ToInt32(command1.ExecuteScalar());
+
+                                            if (i < 1)
                                             {
-                                                if (reader.HasRows)
+                                                Classes.Add.NewImage(connection, file, command);
+                                            }
+                                            else
+                                            {
+                                                using (SqlDataReader reader = command1.ExecuteReader())
                                                 {
                                                     while (reader.Read()) command.Parameters.AddWithValue("@imageid", reader[0]);
-                                                }
-                                                else
-                                                {
-                                                    Classes.Add.NewImage(connection, file, command);
-
-                                                    using (SqlCommand command2 = connection.CreateCommand())
-                                                    {
-                                                        command2.CommandText = "SELECT MAX(Id) FROM Images";
-
-                                                        using (SqlDataReader reader1 = command2.ExecuteReader())
-                                                        {
-                                                            if (reader1.HasRows)
-                                                            {
-                                                                while (reader1.Read()) command.Parameters.AddWithValue("@imageid", reader[0]);
-                                                            }
-                                                        }
-                                                    }
                                                 }
                                             }
                                         }
@@ -118,7 +135,7 @@ namespace KP.Pages
 
                                 MessageBox.Show("Пользователь успешно зарегистрирован!", "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                                NavigationService.Navigate(new Uri("Pages/UserPage.xaml", UriKind.RelativeOrAbsolute));
+                                NavigationService.Navigate(new Uri("Pages/User.xaml", UriKind.RelativeOrAbsolute));
                             }
                             catch (SqlException ex)
                             {
@@ -157,11 +174,21 @@ namespace KP.Pages
             }
         }
 
+        /// <summary>
+        /// Метод обновления страницы по нажатию кнопки "Обновить страницу"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void update_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Refresh();
         }
 
+        /// <summary>
+        /// Метод вставки изображения из файла в форму регистрации по отжатию ЛКМ на форме изображения
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void image_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             image.Source = Classes.Set.ImageFromFile(out file);

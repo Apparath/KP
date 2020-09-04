@@ -1,0 +1,30 @@
+﻿<Page x:Class="KP.Pages.Profile"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:KP.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="419" d:DesignWidth="642"
+      Title="Profile">
+
+    <Grid>
+        <TextBlock Style="{StaticResource RegBlock}" Text="Логин:" Margin="0,0,174,240"/>
+        <TextBox Style="{StaticResource RegBox}" x:Name="login" Margin="72,0,0,240"/>
+        <TextBlock Style="{StaticResource RegBlock}" Text="Имя:" Margin="0,0,174,60"/>
+        <TextBox Style="{StaticResource RegBox}" x:Name="name" Margin="72,0,0,60"/>
+        <TextBlock Style="{StaticResource RegBlock}" Text="Фамилия:" Margin="0,0,174,15"/>
+        <TextBox Style="{StaticResource RegBox}" x:Name="surname" Margin="72,0,0,15"/>
+        <TextBlock Style="{StaticResource RegBlock}" Text="Пол:" Margin="0,60,174,0"/>
+        <ComboBox Style="{StaticResource RegCmbox}" x:Name="gender" Margin="72,60,0,0">
+            <ComboBoxItem Content="Не выбрано" IsSelected="True"/>
+            <ComboBoxItem Content="М (Мужской)"/>
+            <ComboBoxItem Content="Ж (Женский)"/>
+        </ComboBox>
+        <TextBlock Style="{StaticResource RegBlock}" Text="Страна:" Margin="0,105,174,0"/>
+        <ComboBox Style="{StaticResource RegCmbox}" x:Name="country" IsEditable="True" Margin="72,105,0,0">
+            <ComboBoxItem Content="Не выбрано" IsSelected="True"/>
+        </ComboBox>
+        <Image x:Name="image" PreviewMouseLeftButtonUp="image_PreviewMouseLeftButtonUp" Height="200" Width="200" Margin="360,0,0,90" Source="/KP;component/Resources/addImage.png"/>
+    </Grid>
+</Page>

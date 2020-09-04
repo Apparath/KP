@@ -7,6 +7,11 @@ namespace KP.Classes
 {
     class Captcha
     {
+        /// <summary>
+        /// Метод обновления капчи и очистки поля ввода проверки
+        /// </summary>
+        /// <param name="textBlock"></param>
+        /// <param name="textBox"></param>
         public static void Refresh(TextBlock textBlock, TextBox textBox)
         {
             textBlock.Text = "";
@@ -28,6 +33,13 @@ namespace KP.Classes
             }
         }
 
+        /// <summary>
+        /// Метод появления капчи после трех неправильных попыток
+        /// </summary>
+        /// <param name="textBlock"></param>
+        /// <param name="textBox"></param>
+        /// <param name="button"></param>
+        /// <param name="check"></param>
         public static void Check(TextBlock textBlock, TextBox textBox, Button button, bool check)
         {
             if (check == true)
