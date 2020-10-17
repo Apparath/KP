@@ -68,106 +68,129 @@ namespace KP.Pages
         /// <param name="e"></param>
         private void register_Click(object sender, RoutedEventArgs e)
         {
-            if (login.Text != "" && password.Password != "" && repeat.Password != "" && (surname.Text != "" || name.Text != ""))
+            if (login.Text != "" && password.Password != "" && repeat.Password != "" && gender.SelectedIndex!= 0 && (surname.Text != "" || name.Text != ""))
             {
-                if (repeat.Password == password.Password)
+                if (login.Text.Length > 2 && login.Text.Length <= 20)
                 {
-                    if (verify.Text == captcha.Text)
+                    if (password.Password.Length > 7 && password.Password.Length <= 20)
                     {
-                        using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connStr"].ConnectionString))
+                        if (repeat.Password == password.Password)
                         {
-                            try
+                            if (verify.Text == captcha.Text)
                             {
-                                connection.Open();
-
-                                using (SqlCommand command = connection.CreateCommand())
+                                using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connStr"].ConnectionString))
                                 {
-                                    command.CommandText = "EXEC AddNewUser @login, @password, @surname, @name, @gender, @countryid, @imageid";
-
-                                    command.Parameters.AddWithValue("@login", login.Text);
-                                    command.Parameters.AddWithValue("@password", password.Password);
-                                    command.Parameters.AddWithValue("@surname", surname.Text);
-                                    command.Parameters.AddWithValue("@name", name.Text);
-
-                                    switch (gender.SelectedIndex)
+                                    try
                                     {
-                                        case 1: 
-                                            command.Parameters.AddWithValue("@gender", "М");
-                                            break;
-                                        case 2: 
-                                            command.Parameters.AddWithValue("@gender", "Ж");
-                                            break;
-                                        default:
-                                            command.Parameters.AddWithValue("@gender", DBNull.Value);
-                                            break;
-                                    }
+                                        connection.Open();
 
-                                    if (country.SelectedIndex != 0) command.Parameters.AddWithValue("@countryid", country.SelectedIndex);
-                                    else command.Parameters.AddWithValue("@countryid", DBNull.Value);
-
-                                    if (!image.Source.ToString().Contains("addImage.png"))
-                                    {
-                                        using (SqlCommand command1 = connection.CreateCommand())
+                                        using (SqlCommand command = connection.CreateCommand())
                                         {
-                                            command1.CommandText = "SELECT Id, Name FROM Images WHERE Name = @name";
+                                            command.CommandText = "EXEC AddNewUser @login, @password, @name, @surname, @gender, @country, @image";
 
-                                            command1.Parameters.AddWithValue("@name", file.Name);
+                                            command.Parameters.AddWithValue("@login", login.Text);
+                                            command.Parameters.AddWithValue("@password", password.Password);
+                                            command.Parameters.AddWithValue("@surname", surname.Text);
+                                            command.Parameters.AddWithValue("@name", name.Text);
 
-                                            int i = Convert.ToInt32(command1.ExecuteScalar());
-
-                                            if (i < 1)
+                                            switch (gender.SelectedIndex)
                                             {
-                                                Classes.Add.NewImage(connection, file, command);
+                                                case 1:
+                                                    command.Parameters.AddWithValue("@gender", "Мужчина");
+                                                    break;
+                                                case 2:
+                                                    command.Parameters.AddWithValue("@gender", "Женщина");
+                                                    break;
+                                                default:
+                                                    break;
                                             }
-                                            else
+
+                                            if (country.SelectedIndex != 0) command.Parameters.AddWithValue("@country", country.SelectedItem.ToString());
+                                            else command.Parameters.AddWithValue("@country", DBNull.Value);
+
+                                            if (!image.Source.ToString().Contains("addImage.png"))
                                             {
-                                                using (SqlDataReader reader = command1.ExecuteReader())
+                                                using (SqlCommand command1 = connection.CreateCommand())
                                                 {
-                                                    while (reader.Read()) command.Parameters.AddWithValue("@imageid", reader[0]);
+                                                    command1.CommandText = "EXEC FindImage @binary";
+
+                                                    command1.Parameters.AddWithValue("@binary", Classes.Get.ImageFromFile(file.FullName));
+
+                                                    using (SqlDataReader reader = command1.ExecuteReader())
+                                                    {
+                                                        if (reader.HasRows)
+                                                        {
+                                                            while (reader.Read()) command.Parameters.AddWithValue("@image", reader[0]);
+                                                        }
+                                                        else
+                                                        {
+                                                            reader.Close();
+
+                                                            Classes.Add.NewImage(connection, file, command);
+                                                        }
+                                                    }
                                                 }
                                             }
+                                            else command.Parameters.AddWithValue("@image", DBNull.Value);
+
+                                            command.ExecuteNonQuery();
                                         }
+
+                                        MessageBox.Show("Пользователь успешно зарегистрирован!", "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                                        Classes.Login.Value = login.Text;
+
+                                        NavigationService.Navigate(new Uri("Pages/User.xaml", UriKind.RelativeOrAbsolute));
                                     }
-                                    else command.Parameters.AddWithValue("@imageid", DBNull.Value);
+                                    catch (SqlException ex)
+                                    {
+                                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 
-                                    command.ExecuteNonQuery();
+                                        return;
+                                    }
+                                    finally
+                                    {
+                                        connection.Close();
+                                    }
                                 }
-
-                                MessageBox.Show("Пользователь успешно зарегистрирован!", "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                                NavigationService.Navigate(new Uri("Pages/User.xaml", UriKind.RelativeOrAbsolute));
                             }
-                            catch (SqlException ex)
+                            else
                             {
-                                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                                MessageBox.Show("Неверное значения Captcha!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 
-                                return;
+                                repeat.Password = "";
+                                Classes.Captcha.Refresh(captcha, verify);
                             }
-                            finally
-                            {
-                                connection.Close();
-                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Введенные пароли не совпадают!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                            repeat.Password = "";
+                            Classes.Captcha.Refresh(captcha, verify);
                         }
                     }
                     else
                     {
-                        MessageBox.Show("Неверное значения Captcha!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Пароль должен быть в диапазоне от 3 до 20 символов!", "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
 
+                        login.Text = "";
                         repeat.Password = "";
                         Classes.Captcha.Refresh(captcha, verify);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Введенные пароли не совпадают!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Логин должен быть в диапазоне от 3 до 20 символов!", "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
 
+                    login.Text = "";
                     repeat.Password = "";
                     Classes.Captcha.Refresh(captcha, verify);
                 }
             }
             else
             {
-                MessageBox.Show("Заполните все неоходимые данные!", "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Заполните все необходимые данные!", "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 repeat.Password = "";
                 Classes.Captcha.Refresh(captcha, verify);
@@ -185,7 +208,7 @@ namespace KP.Pages
         }
 
         /// <summary>
-        /// Метод вставки изображения из файла в форму регистрации по отжатию ЛКМ на форме изображения
+        /// Метод вставки изображения из файла в форму регистрации после отжатия ЛКМ на форме изображения
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

@@ -34,7 +34,7 @@ namespace KP.Pages
 
                     using (SqlCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = "SELECT Role_id FROM Users WHERE Login = @login";
+                        command.CommandText = "EXEC FindRole @login";
 
                         command.Parameters.AddWithValue("@login", Classes.Login.Value);
 
@@ -42,7 +42,7 @@ namespace KP.Pages
                         {
                             while (reader.Read())
                             {
-                                if ((int)reader[0] == 1)
+                                if (reader[0].ToString() == "Администратор")
                                 {
                                     roles.Visibility = Visibility.Visible;
                                     users.Visibility = Visibility.Visible;
@@ -64,14 +64,87 @@ namespace KP.Pages
             }
         }
 
+        /// <summary>
+        /// Метод перехода на главную страницу по нажатию кнопки "Главная"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void main_Click(object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(new Uri("Pages/Main.xaml", UriKind.RelativeOrAbsolute));
+        }
+
+        /// <summary>
+        /// Метод перехода на страницу жанров по нажатию кнопки "Жанры"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void genres_Click(object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(new Uri("Pages/Genres.xaml", UriKind.RelativeOrAbsolute));
+        }
+
+        /// <summary>
+        /// Метод перехода на страницу треков по нажатию кнопки "Треки"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tracks_Click(object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(new Uri("Pages/Tracks.xaml", UriKind.RelativeOrAbsolute));
+        }
+
+        /// <summary>
+        /// Метод переходв на страницу исполнителей по нажатию кнопки "Исполнители"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void executors_Click(object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(new Uri("Pages/Executors.xaml", UriKind.RelativeOrAbsolute));
+        }
+
+        /// <summary>
+        /// Метод перехода на страницу ролей по нажатию кнопки "Роли"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void roles_Click(object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(new Uri("Pages/Roles.xaml", UriKind.RelativeOrAbsolute));
+        }
+
+        /// <summary>
+        /// Метод перехода на страницу пользователей по нажаитю кнопки "Пользователи"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void users_Click(object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(new Uri("Pages/Users.xaml", UriKind.RelativeOrAbsolute));
+        }
+
+        /// <summary>
+        /// Метод перехода на страницу профиля пользователя по нажатию кнопки "Профиль"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void profile_Click(object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(new Uri("Pages/Profile.xaml", UriKind.RelativeOrAbsolute));
+        }
+        
+        /// <summary>
+        /// Метод возврата на страницу авторизации по нажатию кнопки "Выйти"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void back_Click(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new Uri("Pages/Auth.xaml", UriKind.RelativeOrAbsolute));
+
+            Classes.Login.Value = "";
         }
 
-        private void profile_Click(object sender, RoutedEventArgs e)
-        {
-            frame.Navigate(new Uri(""))
-        }
     }
 }

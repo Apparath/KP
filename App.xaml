@@ -4,9 +4,6 @@
              xmlns:local="clr-namespace:KP"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <Style TargetType="Grid">
-            <Setter Property="Background" Value="#FF404040"/>
-        </Style>
         <Style x:Key="AuthBlock" TargetType="TextBlock">
             <Setter Property="Grid.Column" Value="1"/>
             <Setter Property="FontSize" Value="16"/>
@@ -74,7 +71,61 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Height" Value="40"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="Width" Value="150"/>
+        </Style>
+        <Style x:Key="SearchBox" TargetType="TextBox">
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Margin" Value="0,0,84,0"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Width" Value="160"/>
+            <Setter Property="Text" Value="Поиск"/>
+        </Style>
+        <Style x:Key="SearchBtn" TargetType="Button">
+            <Setter Property="Background" Value="Gray"/>
+            <Setter Property="Content" Value="Искать"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Margin" Value="0,0,4,0"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Width" Value="75"/>
+        </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="CanUserResizeRows" Value="False"/>
+            <Setter Property="CanUserReorderColumns" Value="False"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="Grid.Row" Value="1"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="Content" Value="Полная фраза"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Margin" Value="0,0,249,0"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="FlowDirection" Value="RightToLeft"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="UpdatePageBtn" TargetType="Button">
+            <Setter Property="Background" Value="Gray"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Margin" Value="4,0,0,0"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Width" Value="25"/>
+        </Style>
+        <Style TargetType="DataGridCell">
+            <Setter Property="TextBlock.TextAlignment" Value="Right"/>
+        </Style>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
         </Style>
     </Application.Resources>
 </Application>

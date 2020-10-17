@@ -9,12 +9,12 @@
       Title="User">
 
     <Grid>
-        <Button Style="{StaticResource UserBtn}" x:Name="main" Content="Главная" VerticalAlignment="Top"/>
-        <Button Style="{StaticResource UserBtn}" x:Name="genres" Content="Жанры" VerticalAlignment="Top" Margin="0,40,0,0"/>
-        <Button Style="{StaticResource UserBtn}" x:Name="tracks" Content="Треки" Margin="0,0,0,218"/>
-        <Button Style="{StaticResource UserBtn}" x:Name="executors" Content="Исполнители" Margin="0,0,0,138"/>
-        <Button Style="{StaticResource UserBtn}" x:Name="roles" Content="Роли" Margin="0,0,0,58"/>
-        <Button Style="{StaticResource UserBtn}" x:Name="users" Content="Пользователи" Margin="0,22,0,0"/>
+        <Button Style="{StaticResource UserBtn}" x:Name="main" Content="Главная" Click="main_Click"/>
+        <Button Style="{StaticResource UserBtn}" x:Name="genres" Content="Жанры" Margin="0,40,0,0" Click="genres_Click"/>
+        <Button Style="{StaticResource UserBtn}" x:Name="tracks" Content="Треки" Margin="0,80,0,0" Click="tracks_Click"/>
+        <Button Style="{StaticResource UserBtn}" x:Name="executors" Content="Исполнители" Margin="0,120,0,0" Click="executors_Click"/>
+        <Button Style="{StaticResource UserBtn}" x:Name="roles" Content="Роли" Margin="0,160,0,0" Click="roles_Click" Visibility="Hidden"/>
+        <Button Style="{StaticResource UserBtn}" x:Name="users" Content="Пользователи" Margin="0,200,0,0" Click="users_Click" Visibility="Hidden"/>
         <Button Style="{StaticResource UserBtn}" x:Name="profile" Content="Профиль" VerticalAlignment="Bottom" Margin="0,0,0,40" Click="profile_Click"/>
         <Button Style="{StaticResource UserBtn}" x:Name="back" Content="Выйти" VerticalAlignment="Bottom" Click="back_Click"/>
         <Frame x:Name="frame" NavigationUIVisibility="Hidden" Margin="150,0,0,0"/>

@@ -25,13 +25,13 @@ namespace KP.Classes
 
             using (SqlCommand command2 = connection.CreateCommand())
             {
-                command2.CommandText = "SELECT MAX(Id) FROM Images";
+                command2.CommandText = "EXEC LastAddedImage";
 
                 using (SqlDataReader reader = command2.ExecuteReader())
                 {
                     if (reader.HasRows)
                     {
-                        while (reader.Read()) command.Parameters.AddWithValue("@imageid", reader[0]);
+                        while (reader.Read()) command.Parameters.AddWithValue("@image", reader[0]);
                     }
                 }
 

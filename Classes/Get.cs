@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace KP.Classes
@@ -20,7 +23,7 @@ namespace KP.Classes
         {
             using (SqlCommand command = connection.CreateCommand())
             {
-                command.CommandText = "SELECT Country_name FROM Countries";
+                command.CommandText = "SELECT Name FROM Countries";
 
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
@@ -51,6 +54,86 @@ namespace KP.Classes
             stream.Close();
 
             return photo;
+        }
+
+        /// <summary>
+        /// Метод заполнения списка ролей
+        /// </summary>
+        /// <param name="command"></param>
+        public static void FillGrid(SqlCommand command, DataGrid rolesGrid)
+        {
+            command.ExecuteNonQuery();
+            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+            {
+                DataTable rolesTable = new DataTable();
+                adapter.Fill(rolesTable);
+
+                rolesGrid.ItemsSource = rolesTable.DefaultView;
+            }
+        }
+
+        /// <summary>
+        /// Метод показа таблицы ролей
+        /// </summary>
+        public static void TableOutput(DataGrid dataGrid, DataGrid old, byte i)
+        {
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connStr"].ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = connection.CreateCommand())
+                    {
+                        switch (i)
+                        {
+                            case 0:
+                                command.CommandText = "EXEC FindTracks @login";
+                                command.Parameters.AddWithValue("@login", Login.Value);
+                                break;
+                            case 1:
+                                command.CommandText = "EXEC FindExecutors @login";
+                                command.Parameters.AddWithValue("@login", Login.Value);
+                                break;
+                            case 2:
+                                command.CommandText = "SELECT * FROM Genres";
+                                break;
+                            case 3:
+                                command.CommandText = "EXEC FindLikedTracks @login";
+                                command.Parameters.AddWithValue("@login", Login.Value);
+                                break;
+                            case 4:
+                                command.CommandText = "EXEC FindLikedExecutors @login";
+                                command.Parameters.AddWithValue("@login", Login.Value);
+                                break;
+                            case 5:
+                                command.CommandText = "SELECT * FROM Roles";
+                                break;
+                            case 6:
+                                command.CommandText = "EXEC FindUsers";
+                                break;
+                            case 7:
+                                command.CommandText = "EXEC FindExecutorsInGenre @name";
+                                command.Parameters.AddWithValue("@name", ((DataRowView)old.SelectedItem)[1].ToString());
+                                break;
+                            default:
+                                break;
+                        }
+
+                        FillGrid(command, dataGrid);
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                    return;
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
     }
 }

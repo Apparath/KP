@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Windows;
@@ -28,13 +29,19 @@ namespace KP.Classes
             if (dialog.ShowDialog() == true)
             {
                 file = new FileInfo(dialog.FileName);
+            }
 
-                if (file != null)
-                {
-                    bitmap.BeginInit();
-                    bitmap.UriSource = new Uri(file.FullName);
-                    bitmap.EndInit();
-                }
+            if (file != null)
+            {
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(file.FullName);
+                bitmap.EndInit();
+            }
+            else
+            {
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri("/KP;component/Resources/addImage.png", UriKind.RelativeOrAbsolute);
+                bitmap.EndInit();
             }
             return bitmap;
         }

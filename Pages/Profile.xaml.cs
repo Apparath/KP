@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,22 @@ namespace KP.Pages
         public Profile()
         {
             InitializeComponent();
+        }
+
+        private void change_Click(object sender, RoutedEventArgs e)
+        {
+            name.IsEnabled = true;
+            surname.IsEnabled = true;
+            gender.IsEnabled = true;
+            country.IsEnabled = true;
+            image.IsEnabled = true;
+        }
+
+        private FileInfo file; //Для передачи пути изображения
+
+        private void image_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            image.Source = Classes.Set.ImageFromFile(out file);
         }
     }
 }
