@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:KP.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="419" d:DesignWidth="642"
-      Title="Main" Loaded="Page_Loaded">
+      Title="Main">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -24,7 +24,13 @@
                 <DataGridTextColumn Binding="{Binding Executor}" Header="Исполнитель"/>
                 <DataGridCheckBoxColumn Binding="{Binding Like}" Header="Нравится"/>
             </DataGrid.Columns>
-            
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem x:Name="add" Header="Добавить" Click="add_Click"/>
+                    <MenuItem x:Name="edit" Header="Редактировать"/>
+                    <MenuItem x:Name="delete" Header="Удалить" Click="delete_Click"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
         </DataGrid>
         <DataGrid AutoGenerateColumns="False" x:Name="executorsGrid" Grid.Row="2">
             <DataGrid.Columns>
@@ -32,7 +38,12 @@
                 <DataGridTextColumn Binding="{Binding Date}" Header="Год основания"/>
                 <DataGridCheckBoxColumn Binding="{Binding Like}" Header="Нравится"/>
             </DataGrid.Columns>
-            
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem x:Name="edit1" Header="Редактировать"/>
+                    <MenuItem x:Name="delete1" Header="Удалить"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
         </DataGrid>
     </Grid>
 </Page>

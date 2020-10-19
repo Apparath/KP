@@ -5,8 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KP.Windows"
         mc:Ignorable="d"
-        Title="Executor" Height="450" Width="800">
+        Height="350" Width="550" MinWidth="550" MinHeight="350"  ResizeMode="NoResize" Topmost="True" ShowInTaskbar="False" Background="#FF404040">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="246"/>
+            <ColumnDefinition Width="246"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Style="{StaticResource RegBlock}" Text="Название:" Margin="0,0,174,125"/>
+        <TextBox Style="{StaticResource RegBox}" x:Name="name" Margin="72,0,0,125"/>
+        <TextBlock Style="{StaticResource RegBlock}" Text="Дата:" Margin="0,0,174,75"/>
+        <DatePickerTextBox Style="{StaticResource RegBox}" x:Name="date" Margin="72,0,0,75"/>
+        <TextBlock Style="{StaticResource RegBlock}" Text="Страна:" Margin="0,0,174,25"/>
+        <ComboBox Style="{StaticResource RegCmbox}" x:Name="country" IsEditable="True" Margin="72,0,0,25"/>
+        <Image x:Name="image" PreviewMouseLeftButtonUp="image_PreviewMouseLeftButtonUp" Height="200" Grid.Column="2" Width="200" Margin="0,0,0,90" Source="/KP;component/Resources/addImage.png"/>
+        <Button Style="{StaticResource RegBtn}" x:Name="track" Content="" Grid.Column="2" Margin="0,201,0,0" Width="170"/>
     </Grid>
 </Window>

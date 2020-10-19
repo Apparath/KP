@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:KP.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="419" d:DesignWidth="642"
-      Title="Genres" Loaded="Page_Loaded">
+      Title="Genres">
 
     <Grid>
         <Grid.RowDefinitions>

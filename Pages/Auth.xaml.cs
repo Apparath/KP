@@ -72,7 +72,7 @@ namespace KP.Pages
 
                     using (SqlCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = "EXEC LoginUser @login, @password";
+                        command.CommandText = "SELECT Login, Password FROM Users WHERE Login = @login AND Password = @password";
 
                         command.Parameters.AddWithValue("@login", login.Text);
                         command.Parameters.AddWithValue("@password", password.Password);

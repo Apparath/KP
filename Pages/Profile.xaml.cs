@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -21,25 +23,76 @@ namespace KP.Pages
     /// </summary>
     public partial class Profile : Page
     {
-        public Profile()
+        public Profile(string user)
         {
             InitializeComponent();
-        }
 
-        private void change_Click(object sender, RoutedEventArgs e)
-        {
-            name.IsEnabled = true;
-            surname.IsEnabled = true;
-            gender.IsEnabled = true;
-            country.IsEnabled = true;
-            image.IsEnabled = true;
-        }
+            this.Loaded += (s, e) =>
+            {
+                using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connStr"].ConnectionString))
+                {
+                    try
+                    {
+                        connection.Open();
 
-        private FileInfo file; //Для передачи пути изображения
+                        using (SqlCommand command = connection.CreateCommand())
+                        {
+                            command.CommandText = "EXEC GetInfos @login";
 
-        private void image_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            image.Source = Classes.Set.ImageFromFile(out file);
+                            command.Parameters.AddWithValue("@login", user);
+
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                BitmapImage bitmap = new BitmapImage();
+                                while (reader.Read())
+                                {
+                                    login.Text = reader[0].ToString();
+                                    name.Text = reader[2].ToString();
+                                    surname.Text = reader[3].ToString();
+                                    gender.Text = reader[4].ToString();
+                                    country.Text = reader[5].ToString();
+
+                                    if (reader[6] != DBNull.Value)
+                                    {
+                                        bitmap.BeginInit();
+                                        bitmap.StreamSource = new MemoryStream((byte[])reader[6]);
+                                        bitmap.EndInit();
+                                    }
+                                    else
+                                    {
+                                        bitmap.BeginInit();
+                                        bitmap.UriSource = new Uri("/KP;component/Resources/addImage.png", UriKind.RelativeOrAbsolute);
+                                        bitmap.EndInit();
+                                    }
+                                }
+
+                                image.Source = bitmap;
+                            }
+                        }
+                    }
+                    catch (SqlException ex)
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                        return;
+                    }
+                    finally
+                    {
+                        connection.Close();
+                    }
+                }
+            };
+
+            changeInfos.Click += (s, e) =>
+            {
+                NavigationService.Navigate(new EditUser(user));
+            };
+
+            changePw.Click += (s, e) =>
+            {
+                Windows.Password password = new Windows.Password(user);
+                password.ShowDialog();
+            };
         }
     }
 }

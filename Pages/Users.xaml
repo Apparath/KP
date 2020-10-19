@@ -26,7 +26,15 @@
                 <DataGridTextColumn Binding="{Binding Country}" Header="Страна"/>
                 <DataGridTextColumn Binding="{Binding Role}" Header="Роль"/>
             </DataGrid.Columns>
-           
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem x:Name="userInfos" Header="Профиль пользователя" Click="userInfos_Click"/>
+                    <Separator/>
+                    <MenuItem x:Name="add" Header="Добавить" Click="add_Click"/>
+                    <MenuItem x:Name="edit" Header="Редактировать" Click="edit_Click"/>
+                    <MenuItem x:Name="delete" Header="Удалить" Click="delete_Click"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
         </DataGrid>
     </Grid>
 </Page>

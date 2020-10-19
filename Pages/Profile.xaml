@@ -18,20 +18,15 @@
         <TextBlock Style="{StaticResource RegBlock}" Text="Логин:" Margin="0,0,174,240"/>
         <TextBlock Style="{StaticResource RegBlock}" x:Name="login" Margin="72,0,0,240"/>
         <TextBlock Style="{StaticResource RegBlock}" Text="Имя:" Margin="0,0,174,140"/>
-        <TextBox Style="{StaticResource RegBox}" x:Name="name" Margin="72,0,0,140" IsEnabled="False"/>
+        <TextBlock Style="{StaticResource RegBlock}" x:Name="name" Margin="72,0,0,140"/>
         <TextBlock Style="{StaticResource RegBlock}" Text="Фамилия:" Margin="0,0,174,95"/>
-        <TextBox Style="{StaticResource RegBox}" x:Name="surname" Margin="72,0,0,95" IsEnabled="False"/>
+        <TextBlock Style="{StaticResource RegBlock}" x:Name="surname" Margin="72,0,0,95"/>
         <TextBlock Style="{StaticResource RegBlock}" Text="Пол:" Margin="0,0,174,0"/>
-        <ComboBox Style="{StaticResource RegCmbox}" x:Name="gender" Margin="72,0,0,0" IsEnabled="False">
-            <ComboBoxItem Content="Не выбрано" IsSelected="True"/>
-            <ComboBoxItem Content="М (Мужской)"/>
-            <ComboBoxItem Content="Ж (Женский)"/>
-        </ComboBox>
+        <TextBlock Style="{StaticResource RegBlock}" x:Name="gender" Margin="72,0,0,0"/>
         <TextBlock Style="{StaticResource RegBlock}" Text="Страна:" Margin="0,45,174,0"/>
-        <ComboBox Style="{StaticResource RegCmbox}" x:Name="country" Margin="72,45,0,0" IsEnabled="False" IsEditable="True">
-            <ComboBoxItem Content="Не выбрано" IsSelected="True"/>
-        </ComboBox>
-        <Image x:Name="image" PreviewMouseLeftButtonUp="image_PreviewMouseLeftButtonUp" Height="200" Width="200" Margin="0,0,0,90" Source="/KP;component/Resources/addImage.png" Grid.Column="2" IsEnabled="False"/>
-        <Button Style="{StaticResource RegBtn}" x:Name="change" Content="Изменить данные" Grid.Column="1" Width="180" Margin="0,140,0,0" Click="change_Click"/>
+        <TextBlock Style="{StaticResource RegBlock}" x:Name="country" Margin="72,45,0,0"/>
+        <Image x:Name="image" Height="200" Width="200" Margin="0,0,0,90" Grid.Column="2"/>
+        <Button Style="{StaticResource RegBtn}" x:Name="changeInfos" Content="Изменить данные" Grid.Column="1" Width="180" Margin="0,140,0,0"/>
+        <Button Style="{StaticResource RegBtn}" x:Name="changePw" Content="Изменить пароль" Grid.Column="2" Width="180" Margin="0,140,0,0"/>
     </Grid>
 </Page>

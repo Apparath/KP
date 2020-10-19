@@ -56,11 +56,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Pages\EditUser.xaml.cs">
+      <DependentUpon>EditUser.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ExecutorsInGenre.xaml.cs">
       <DependentUpon>ExecutorsInGenre.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Album.xaml.cs">
-      <DependentUpon>Album.xaml</DependentUpon>
+    <Compile Include="Pages\Track.xaml.cs">
+      <DependentUpon>Track.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Executor.xaml.cs">
       <DependentUpon>Executor.xaml</DependentUpon>
@@ -68,11 +71,11 @@
     <Compile Include="Windows\Genre.xaml.cs">
       <DependentUpon>Genre.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Password.xaml.cs">
+      <DependentUpon>Password.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Role.xaml.cs">
       <DependentUpon>Role.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\Track.xaml.cs">
-      <DependentUpon>Track.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\User.xaml.cs">
       <DependentUpon>User.xaml</DependentUpon>
@@ -95,6 +98,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\Auth.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\EditUser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -126,6 +133,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\Track.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\Tracks.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -138,10 +149,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\Album.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Windows\Executor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -150,11 +157,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\Role.xaml">
+    <Page Include="Windows\Password.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\Track.xaml">
+    <Page Include="Windows\Role.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

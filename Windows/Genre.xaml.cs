@@ -145,7 +145,7 @@ namespace KP.Windows
 
                                 using (SqlCommand command1 = connection.CreateCommand())
                                 {
-                                    command1.CommandText = "INSERT INTO Genres(Id, Name) VALUES (NEWID(), @name)";
+                                    command1.CommandText = "INSERT INTO Genres VALUES @name";
                                     command1.Parameters.AddWithValue("@name", name.Text.Trim());
                                     command1.ExecuteNonQuery();
                                 }

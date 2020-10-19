@@ -46,65 +46,21 @@ namespace KP.Classes
             return bitmap;
         }
 
-        /// <summary>
-        /// Метод передачи изображения из бд в выпадающий список
-        /// </summary>
-        /// <param name="comboBox"></param>
-        /// <returns></returns>
-        public static BitmapImage ImageFromDB(ComboBox comboBox)
+        public static FileInfo TrackFile()
         {
+            OpenFileDialog dialog = new OpenFileDialog();
+
+            dialog.Filter = "Музыка (*.mp3, *.wav, *.flac)|*.mp3; *.wav; *.flac";
+
+            FileInfo file = null;
             BitmapImage bitmap = new BitmapImage();
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connStr"].ConnectionString))
+            if (dialog.ShowDialog() == true)
             {
-                try
-                {
-                    connection.Open();
-
-                    using (SqlCommand command = connection.CreateCommand())
-                    {
-                        command.CommandText = "SELECT Binary FROM Images WHERE Name = @name";
-
-                        command.Parameters.AddWithValue("@name", comboBox.SelectedItem);
-
-                        if (comboBox.SelectedIndex == 0)
-                        {
-                            bitmap.BeginInit();
-                            bitmap.UriSource = new Uri("/KP;component/Resources/addImage.png", UriKind.RelativeOrAbsolute);
-                            bitmap.EndInit();
-                        }
-                        else
-                        {
-                            using (SqlDataReader reader = command.ExecuteReader())
-                            {
-                                if (reader.HasRows)
-                                {
-                                    while (reader.Read())
-                                    {
-                                        byte[] photo = (byte[])reader[0];
-
-                                        bitmap.BeginInit();
-                                        bitmap.StreamSource = new MemoryStream(photo);
-                                        bitmap.EndInit();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                catch (SqlException ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-
-                    return null;
-                }
-                finally
-                {
-                    connection.Close();
-                }
+                file = new FileInfo(dialog.FileName);
             }
 
-            return bitmap;
+            return file;
         }
     }
 }

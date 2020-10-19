@@ -131,7 +131,7 @@ namespace KP.Pages
         /// <param name="e"></param>
         private void profile_Click(object sender, RoutedEventArgs e)
         {
-            frame.Navigate(new Uri("Pages/Profile.xaml", UriKind.RelativeOrAbsolute));
+            frame.Navigate(new Profile(Classes.Login.Value));
         }
         
         /// <summary>

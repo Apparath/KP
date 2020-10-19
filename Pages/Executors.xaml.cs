@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -25,11 +26,10 @@ namespace KP.Pages
         public Executors()
         {
             InitializeComponent();
-        }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
             Classes.Get.TableOutput(executorsGrid, null, 4);
+
+            
         }
 
         private void updatePage_Click(object sender, RoutedEventArgs e)

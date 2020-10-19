@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +20,11 @@ namespace KP.Windows
     /// </summary>
     public partial class User : Window
     {
-        public User()
+        public User(object obj)
         {
             InitializeComponent();
+
+            frame.Navigate(new Pages.Profile(obj.ToString()));
         }
     }
 }

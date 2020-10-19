@@ -15,17 +15,17 @@ namespace KP.Classes
         {
             using (SqlCommand command1 = connection.CreateCommand())
             {
-                command1.CommandText = "EXEC AddNewImage @name, @binary";
+                command1.CommandText = "INSERT INTO Images VALUES (@name, @binary)";
 
                 command1.Parameters.AddWithValue("@name", file.Name);
-                command1.Parameters.AddWithValue("@binary", Get.ImageFromFile(file.FullName));
+                command1.Parameters.AddWithValue("@binary", Get.BytesFromFile(file.FullName));
 
                 command1.ExecuteNonQuery();
             }
 
             using (SqlCommand command2 = connection.CreateCommand())
             {
-                command2.CommandText = "EXEC LastAddedImage";
+                command2.CommandText = "SELECT MAX(Id) FROM Images";
 
                 using (SqlDataReader reader = command2.ExecuteReader())
                 {
@@ -34,8 +34,6 @@ namespace KP.Classes
                         while (reader.Read()) command.Parameters.AddWithValue("@image", reader[0]);
                     }
                 }
-
-                command2.ExecuteNonQuery();
             }
         }
     }

@@ -23,9 +23,9 @@
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem x:Name="add" Header="Добавить" Click="add_Click"/>
-                    <MenuItem x:Name="edit" Header="Редактировать" Click="edit_Click"/>
-                    <MenuItem x:Name="delete" Header="Удалить" Click="delete_Click"/>
+                    <MenuItem x:Name="add" Header="Добавить"/>
+                    <MenuItem x:Name="edit" Header="Редактировать"/>
+                    <MenuItem x:Name="delete" Header="Удалить"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>

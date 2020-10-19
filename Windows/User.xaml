@@ -5,8 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KP.Windows"
         mc:Ignorable="d"
-        Title="User" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="Страница пользователя" Height="460" Width="776" MinWidth="776" MinHeight="460">
+    <Frame x:Name="frame" NavigationUIVisibility="Hidden" Background="#F0404040"/>
 </Window>

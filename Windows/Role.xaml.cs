@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,7 @@ namespace KP.Windows
     /// </summary>
     public partial class Role : Window
     {
-        public Role(bool old, object obj, DataGrid dataGrid)
+        public Role(bool old, object obj,DataGrid dataGrid)
         {
             InitializeComponent();
             
@@ -146,7 +147,7 @@ namespace KP.Windows
 
                                 using (SqlCommand command1 = connection.CreateCommand())
                                 {
-                                    command1.CommandText = "INSERT INTO Roles(Id, Name) VALUES (NEWID(), @name)";
+                                    command1.CommandText = "INSERT INTO Roles VALUES @name";
                                     command1.Parameters.AddWithValue("@name", name.Text.Trim());
                                     command1.ExecuteNonQuery();
                                 }

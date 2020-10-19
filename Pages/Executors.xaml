@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:KP.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="419" d:DesignWidth="642"
-      Title="Executors" Loaded="Page_Loaded">
+      Title="Executors">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -21,7 +21,11 @@
                 <DataGridTextColumn Binding="{Binding Executor}" Header="Исполнитель"/>
                 <DataGridTextColumn Binding="{Binding Date}" Header="Год основания"/>
             </DataGrid.Columns>
-            
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    
+                </ContextMenu>
+            </DataGrid.ContextMenu>
         </DataGrid>
     </Grid>
 </Page>

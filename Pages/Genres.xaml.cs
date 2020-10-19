@@ -25,7 +25,42 @@ namespace KP.Pages
     {
         public Genres()
         {
-            InitializeComponent();
+            InitializeComponent(); 
+            
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connStr"].ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = connection.CreateCommand())
+                    {
+                        command.CommandText = "SELECT Roles.Name FROM Roles INNER JOIN Users ON Role = Id WHERE Login = @login";
+                        command.Parameters.AddWithValue("@login", Classes.Login.Value);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                if (reader[0].ToString() == "Обычный пользователь")
+                                {
+                                    add.Visibility = Visibility.Hidden;
+                                    edit.Visibility = Visibility.Hidden;
+                                    delete.Visibility = Visibility.Hidden;
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
 
         /// <summary>
