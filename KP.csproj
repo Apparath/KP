@@ -56,6 +56,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Pages\Countries.xaml.cs">
+      <DependentUpon>Countries.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\EditUser.xaml.cs">
       <DependentUpon>EditUser.xaml</DependentUpon>
     </Compile>
@@ -64,6 +67,12 @@
     </Compile>
     <Compile Include="Pages\Track.xaml.cs">
       <DependentUpon>Track.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UsersInRole.xaml.cs">
+      <DependentUpon>UsersInRole.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Country.xaml.cs">
+      <DependentUpon>Country.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Executor.xaml.cs">
       <DependentUpon>Executor.xaml</DependentUpon>
@@ -76,9 +85,6 @@
     </Compile>
     <Compile Include="Windows\Role.xaml.cs">
       <DependentUpon>Role.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\User.xaml.cs">
-      <DependentUpon>User.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -98,6 +104,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\Auth.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Countries.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -149,6 +159,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\UsersInRole.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Country.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\Executor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -162,10 +180,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\Role.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\User.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

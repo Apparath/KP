@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,20 +13,25 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace KP.Windows
+namespace KP.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для User.xaml
+    /// Логика взаимодействия для UsersInRole.xaml
     /// </summary>
-    public partial class User : Window
+    public partial class UsersInRole : Page
     {
-        public User(object obj)
+        public UsersInRole(object obj)
         {
             InitializeComponent();
+            Classes.Get.TableOutput(usersInRolesGrid, obj, 8);
+        }
 
-            frame.Navigate(new Pages.Profile(obj.ToString()));
+        private void back_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.GoBack();
         }
     }
 }

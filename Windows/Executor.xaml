@@ -20,6 +20,6 @@
         <TextBlock Style="{StaticResource RegBlock}" Text="Страна:" Margin="0,0,174,25"/>
         <ComboBox Style="{StaticResource RegCmbox}" x:Name="country" IsEditable="True" Margin="72,0,0,25"/>
         <Image x:Name="image" PreviewMouseLeftButtonUp="image_PreviewMouseLeftButtonUp" Height="200" Grid.Column="2" Width="200" Margin="0,0,0,90" Source="/KP;component/Resources/addImage.png"/>
-        <Button Style="{StaticResource RegBtn}" x:Name="track" Content="" Grid.Column="2" Margin="0,201,0,0" Width="170"/>
+        <Button Style="{StaticResource RegBtn}" x:Name="excBtn" Content="" Grid.Column="2" Margin="0,201,0,0" Width="170"/>
     </Grid>
 </Window>

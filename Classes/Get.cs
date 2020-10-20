@@ -75,7 +75,7 @@ namespace KP.Classes
         /// <summary>
         /// Метод показа таблицы ролей
         /// </summary>
-        public static void TableOutput(DataGrid dataGrid, DataGrid old, byte i)
+        public static void TableOutput(DataGrid dataGrid, object old, byte i)
         {
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connStr"].ConnectionString))
             {
@@ -92,8 +92,10 @@ namespace KP.Classes
                                 command.Parameters.AddWithValue("@login", Login.Value);
                                 break;
                             case 1:
-                                command.CommandText = "EXEC FindExecutors @login";
-                                command.Parameters.AddWithValue("@login", Login.Value);
+                                command.CommandText = "select Executors.Name as Executor, YEar(Executors.Date) as Date," +
+                                    "Countries.Name as Country" +
+                                                       " from Executors inner join Records on Executors.Id = Executor" +
+                                                       " left join Countries on Countries.Id = Executors.Country";
                                 break;
                             case 2:
                                 command.CommandText = "SELECT * FROM Genres";
@@ -114,7 +116,19 @@ namespace KP.Classes
                                 break;
                             case 7:
                                 command.CommandText = "EXEC FindExecutorsInGenre @name";
-                                command.Parameters.AddWithValue("@name", ((DataRowView)old.SelectedItem)[1].ToString());
+                                command.Parameters.AddWithValue("@name", old);
+                                break;
+                            case 8:
+                                command.CommandText = "SELECT Login, Password, Users.Name as Name, Surname, Gender, Countries.Name as Country FROM Users INNER JOIN" +
+                                    " Roles ON Roles.Id = Role Left JOIN Countries ON Countries.Id = Users.Country WHERE Roles.Name = @role";
+                                command.Parameters.AddWithValue("@role", old);
+                                break;
+                            case 9:
+                                command.CommandText = "Select Name as Country FROM countries";
+                                break;
+                            case 10:
+                                command.CommandText = "SELECT Albums.Name AS Album, YEAR(Albums.Date) As Date FROM Albums " +
+                                                        "inner join Records on Albums.Id = Records.Album";
                                 break;
                             default:
                                 break;

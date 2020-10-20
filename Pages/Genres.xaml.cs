@@ -25,8 +25,10 @@ namespace KP.Pages
     {
         public Genres()
         {
-            InitializeComponent(); 
-            
+            InitializeComponent();
+
+            Classes.Get.TableOutput(genresGrid, null, 2);
+
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connStr"].ConnectionString))
             {
                 try
@@ -61,16 +63,6 @@ namespace KP.Pages
                     connection.Close();
                 }
             }
-        }
-
-        /// <summary>
-        /// Метод показа таблицы ролей после загрузки страницы жанров
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            Classes.Get.TableOutput(genresGrid, null, 2);
         }
 
         /// <summary>
@@ -133,7 +125,7 @@ namespace KP.Pages
             }
             else
             {
-                MessageBox.Show("Изменить можно только существующую роль", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Изменить можно только существующую запись", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 return;
             }
@@ -201,7 +193,45 @@ namespace KP.Pages
 
         private void showExecutors_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new ExecutorsInGenre(genresGrid));
+            if (genresGrid.SelectedItem != null)
+            {
+                NavigationService.Navigate(new ExecutorsInGenre(((DataRowView)genresGrid.SelectedItem)[1]));
+            }
+            else
+            {
+                MessageBox.Show("Перейти можно только по выделенной записи", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                return;
+            }
+        }
+
+        private void countOfGenres_Click(object sender, RoutedEventArgs e)
+        {
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connStr"].ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = connection.CreateCommand())
+                    {
+                        command.CommandText = "SELECT COUNT(Id) FROM Genres";
+
+                        MessageBox.Show("Количество жанров: " + command.ExecuteScalar().ToString());
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                    return;
+                }
+                finally
+                {
+                    connection.Close();
+                    searchBox.Text = "Поиск";
+                }
+            }
         }
     }
 }

@@ -47,7 +47,10 @@ namespace KP.Windows
             }
             if (old == false)
             {
-                track.Click += (s, e) =>
+                Title = "Добавление исполнителя";
+                excBtn.Content = "Добавить";
+
+                excBtn.Click += (s, e) =>
                 {
                     using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connStr"].ConnectionString))
                     {
@@ -57,9 +60,11 @@ namespace KP.Windows
 
                             using (SqlCommand command = connection.CreateCommand())
                             {
-                                command.CommandText = "";
+                                command.CommandText = "INSERT INTO Executors VALUES (@name, @date, (SELECT Countries.Id FROM" +
+                                " Countries WHERE Countries.Name = @country), @image)";
 
                                 command.Parameters.AddWithValue("@name", name.Text);
+
                                 if (date.Text != null) command.Parameters.AddWithValue("@date", date.Text);
                                 else command.Parameters.AddWithValue("@date", DBNull.Value);
 
@@ -113,7 +118,10 @@ namespace KP.Windows
             }
             else
             {
-                track.Click += (s, e) =>
+                Title = "Изменение исполнителя";
+                excBtn.Content = "Изменить";
+
+                excBtn.Click += (s, e) =>
                 {
 
                 };

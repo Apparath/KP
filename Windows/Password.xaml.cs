@@ -21,7 +21,7 @@ namespace KP.Windows
     /// </summary>
     public partial class Password : Window
     {
-        public Password(string user)
+        public Password(object user)
         {
             InitializeComponent();
 

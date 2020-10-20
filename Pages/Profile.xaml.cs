@@ -23,7 +23,7 @@ namespace KP.Pages
     /// </summary>
     public partial class Profile : Page
     {
-        public Profile(string user)
+        public Profile(object user)
         {
             InitializeComponent();
 

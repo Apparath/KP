@@ -76,8 +76,17 @@ namespace KP.Pages
 
         private void userInfos_Click(object sender, RoutedEventArgs e)
         {
-            Windows.User user = new Windows.User(((DataRowView)usersGrid.SelectedItem)[1]);
-            user.ShowDialog();
+            if (usersGrid.SelectedItem != null)
+            {
+                NavigationService.RemoveBackEntry();
+                NavigationService.Navigate(new Profile(((DataRowView)usersGrid.SelectedItem)[1]));
+            }
+            else
+            {
+                MessageBox.Show("Профиль можно вызвать только у выделенного пользователя", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                return;
+            }
             Classes.Get.TableOutput(usersGrid, null, 6);
             searchBox.Text = "Поиск";
         }

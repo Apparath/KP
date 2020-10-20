@@ -1,0 +1,28 @@
+﻿<Page x:Class="KP.Pages.UsersInRole"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:KP.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="419" d:DesignWidth="642"
+      Title="UsersInRole">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="33"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Button Style="{StaticResource UpdatePageBtn}" x:Name="back" Content="Назад" Width="70" Click="back_Click"/>
+        <DataGrid AutoGenerateColumns="False" x:Name="usersInRolesGrid">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Login}" Header="Логин"/>
+                <DataGridTextColumn Binding="{Binding Password}" Header="Пароль"/>
+                <DataGridTextColumn Binding="{Binding Name}" Header="Имя"/>
+                <DataGridTextColumn Binding="{Binding Surname}" Header="Фамилия"/>
+                <DataGridTextColumn Binding="{Binding Gender}" Header="Пол"/>
+                <DataGridTextColumn Binding="{Binding Country}" Header="Страна"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

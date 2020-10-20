@@ -23,11 +23,12 @@ namespace KP.Pages
     /// </summary>
     public partial class ExecutorsInGenre : Page
     {
-        public ExecutorsInGenre(DataGrid obj)
+        public ExecutorsInGenre(object obj)
         {
             InitializeComponent();
 
-            this.Loaded += (s, e) => Classes.Get.TableOutput(exsInGenreGrid, obj, 7);
+
+            Classes.Get.TableOutput(exsInGenreGrid, obj, 7);
             updatePage.Click += (s, e) =>
             {
                 Classes.Get.TableOutput(exsInGenreGrid, obj, 7);
@@ -45,7 +46,7 @@ namespace KP.Pages
                         {
                             command.CommandText = "EXEC FindExsInGenrePiece @genre, @executor";
                             command.Parameters.AddWithValue("@executor", searchBox.Text);
-                            command.Parameters.AddWithValue("@genre", ((DataRowView)obj.SelectedItem)[1]);
+                            command.Parameters.AddWithValue("@genre", obj);
 
                             Classes.Get.FillGrid(command, exsInGenreGrid);
                         }
@@ -63,21 +64,6 @@ namespace KP.Pages
                     }
                 }
             };
-        }
-
-        private void add_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void edit_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void delete_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

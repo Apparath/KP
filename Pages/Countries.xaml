@@ -1,4 +1,4 @@
-﻿<Page x:Class="KP.Pages.Tracks"
+﻿<Page x:Class="KP.Pages.Countries"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:KP.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="419" d:DesignWidth="642"
-      Title="Tracks">
+      Title="Countries">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -16,15 +16,16 @@
         <Button Style="{StaticResource UpdatePageBtn}" x:Name="updatePage" Content="⭮" Click="updatePage_Click"/>
         <TextBox Style="{StaticResource SearchBox}" x:Name="searchBox"/>
         <Button Style="{StaticResource SearchBtn}" x:Name="searchBtn" Click="searchBtn_Click"/>
-        <DataGrid AutoGenerateColumns="False" x:Name="tracksGrid">
+        <DataGrid AutoGenerateColumns="False" x:Name="countriesGrid">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Track}" Header="Трек"/>
-                <DataGridTextColumn Binding="{Binding Album}" Header="Альбом"/>
-                <DataGridTextColumn Binding="{Binding Executor}" Header="Исполнитель"/>
+                <DataGridTextColumn Binding="{Binding Country}" Header="Страна"/>
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem x:Name="deleteLiked" Header="Убрать из Избранного" Click="deleteLiked_Click"/>
+                    <MenuItem x:Name="countOfCountries" Header="Количество стран" Click="countOfCountries_Click"/>
+                    <MenuItem x:Name="add" Header="Добавить" Click="add_Click"/>
+                    <MenuItem x:Name="edit" Header="Редактировать" Click="edit_Click"/>
+                    <MenuItem x:Name="delete" Header="Удалить" Click="delete_Click"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>

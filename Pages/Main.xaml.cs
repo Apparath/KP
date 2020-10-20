@@ -49,6 +49,8 @@ namespace KP.Pages
                                     delete.Visibility = Visibility.Hidden;
                                     edit1.Visibility = Visibility.Hidden;
                                     delete1.Visibility = Visibility.Hidden;
+                                    edit2.Visibility = Visibility.Hidden;
+                                    delete2.Visibility = Visibility.Hidden;
                                 }
                             }
                         }
@@ -65,10 +67,11 @@ namespace KP.Pages
             }
             Classes.Get.TableOutput(tracksGrid, null, 0);
             Classes.Get.TableOutput(executorsGrid, null, 1);
+            Classes.Get.TableOutput(albumsGrid, null, 10);
 
             edit.Click += (s, e) =>
             {
-
+                
             };
 
             edit1.Click += (s, e) =>
@@ -77,9 +80,143 @@ namespace KP.Pages
                 executor.ShowDialog();
             };
 
+            like.Click += (s, e) =>
+            {
+                if (tracksGrid.SelectedItem != null)
+                {
+                    using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connStr"].ConnectionString))
+                    {
+                        try
+                        {
+                            connection.Open();
+
+                            using (SqlCommand command = connection.CreateCommand())
+                            {
+                                command.CommandText = "INSERT INTO Likes VALUES ((SELECT Login FROM Users WHERE Login = @login), (SELECT Id FROM Tracks WHERE Tracks.Name = @track))";
+
+                                command.Parameters.AddWithValue("@login", Classes.Login.Value);
+                                command.Parameters.AddWithValue("@track", ((DataRowView)tracksGrid.SelectedItem)[0]);
+                            }
+                        }
+                        catch (SqlException ex)
+                        {
+                            MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                            return;
+                        }
+                        finally
+                        {
+                            searchBox.Text = "Поиск";
+                            connection.Close();
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Добавить в избранное можно только выделенную запись", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                    return;
+                }
+            };
+
             delete1.Click += (s, e) =>
             {
+                if (executorsGrid.SelectedItem != null)
+                {
+                    MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите удалить данную запись?", "Уведомление", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connStr"].ConnectionString))
+                        {
+                            try
+                            {
+                                connection.Open();
+
+                                using (SqlCommand command = connection.CreateCommand())
+                                {
+                                    command.CommandText = "DELETE FROM Records WHERE Records.Executor = (SELECT Id FROM Executors WHERE Executors.Name = @executor)";
+
+                                    command.Parameters.AddWithValue("@executor", ((DataRowView)executorsGrid.SelectedItem)[0]);
+
+                                    Classes.Get.FillGrid(command, tracksGrid);
+                                    Classes.Get.FillGrid(command, executorsGrid);
+                                    Classes.Get.FillGrid(command, albumsGrid);
+                                }
+                            }
+                            catch (SqlException ex)
+                            {
+                                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                                return;
+                            }
+                            finally
+                            {
+                                Classes.Get.TableOutput(tracksGrid, null, 0);
+                                Classes.Get.TableOutput(executorsGrid, null, 1);
+                                Classes.Get.TableOutput(albumsGrid, null, 10);
+                                searchBox.Text = "Поиск";
+                                connection.Close();
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Удалить можно только существующую запись", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                    return;
+                }
+            };
+
+            delete2.Click += (s, e) =>
+            {
+                if (albumsGrid.SelectedItem != null)
+                {
+                    MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите удалить данную запись?", "Уведомление", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connStr"].ConnectionString))
+                        {
+                            try
+                            {
+                                connection.Open();
+
+                                using (SqlCommand command = connection.CreateCommand())
+                                {
+                                    command.CommandText = "DELETE FROM Records WHERE Records.Album = (SELECT Id FROM Albums WHERE Albums.Name = @album)";
+
+                                    command.Parameters.AddWithValue("@album", ((DataRowView)executorsGrid.SelectedItem)[0]);
+
+                                    Classes.Get.FillGrid(command, tracksGrid);
+                                    Classes.Get.FillGrid(command, executorsGrid);
+                                    Classes.Get.FillGrid(command, albumsGrid);
+                                }
+                            }
+                            catch (SqlException ex)
+                            {
+                                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                                return;
+                            }
+                            finally
+                            {
+                                Classes.Get.TableOutput(tracksGrid, null, 0);
+                                Classes.Get.TableOutput(executorsGrid, null, 1);
+                                Classes.Get.TableOutput(albumsGrid, null, 10);
+                                searchBox.Text = "Поиск";
+                                connection.Close();
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Удалить можно только существующую запись", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                    return;
+                }
             };
         }
 
@@ -87,6 +224,7 @@ namespace KP.Pages
         {
             Classes.Get.TableOutput(tracksGrid, null, 0);
             Classes.Get.TableOutput(executorsGrid, null, 1);
+            Classes.Get.TableOutput(albumsGrid, null, 10);
             searchBox.Text = "Поиск";
         }
 
@@ -109,45 +247,18 @@ namespace KP.Pages
 
                     using (SqlCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = "EXEC FindExsPiece @login, @executor";
-                        command.Parameters.AddWithValue("@login", Classes.Login.Value);
+                        command.CommandText = "EXEC FindExsPiece @executor";
                         command.Parameters.AddWithValue("@executor", searchBox.Text);
 
                         Classes.Get.FillGrid(command, executorsGrid);
                     }
-                }
-                catch (SqlException ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-
-                    return;
-                }
-                finally
-                {
-                    searchBox.Text = "Поиск";
-                    connection.Close();
-                }
-            }
-        }
-
-        private void delete_Click(object sender, RoutedEventArgs e)
-        {
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connStr"].ConnectionString))
-            {
-                try
-                {
-                    connection.Open();
 
                     using (SqlCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = "EXEC DeleteTrack @track, @album, @executor, @binary";
+                        command.CommandText = "EXEC FindAlbumPiece @album";
+                        command.Parameters.AddWithValue("@album", searchBox.Text);
 
-                        command.Parameters.AddWithValue("@track", ((DataRowView)tracksGrid.SelectedItem)[0]);
-                        command.Parameters.AddWithValue("@track", ((DataRowView)tracksGrid.SelectedItem)[1]);
-                        command.Parameters.AddWithValue("@login", ((DataRowView)tracksGrid.SelectedItem)[2]);
-                        command.Parameters.AddWithValue("@track", ((DataRowView)tracksGrid.SelectedItem)[3]);
-
-                        Classes.Get.FillGrid(command, tracksGrid);
+                        Classes.Get.FillGrid(command, albumsGrid);
                     }
                 }
                 catch (SqlException ex)
@@ -162,11 +273,6 @@ namespace KP.Pages
                     connection.Close();
                 }
             }
-        }
-
-        private void add_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService.Navigate(new Uri("Pages/Track.xaml", UriKind.RelativeOrAbsolute));
         }
     }
 }

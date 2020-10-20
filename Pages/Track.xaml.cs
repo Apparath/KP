@@ -50,7 +50,7 @@ namespace KP.Pages
         {
             using (SqlCommand command = connection.CreateCommand())
             {
-                command.CommandText = "INSERT INTO Executors(Name, Country, Date, Image) VALUES (@executor, (SELECT Id FROM Countries WHERE Name = @country), @found, @image)";
+                command.CommandText = "INSERT INTO Executors VALUES (@executor, (SELECT Id FROM Countries WHERE Name = @country), @found, @image)";
 
                 command.Parameters.AddWithValue("@executor", executor.Text);
 
@@ -88,6 +88,7 @@ namespace KP.Pages
                 command.ExecuteNonQuery();
             }
         }
+
         void NewAlb(SqlConnection connection)
         {
             using (SqlCommand command = connection.CreateCommand())
@@ -164,17 +165,65 @@ namespace KP.Pages
                 try
                 {
                     connection.Open();
+
+                    NewEx(connection);
+                    NewAlb(connection);
+
+                    using (SqlCommand command6 = connection.CreateCommand())
+                    {
+                        command6.CommandText = "INSERT INTO Tracks(Name, Binary, Image) VALUES (@track, CAST(@binary AS varbinary(MAX)), NULL)";
+
+                        command6.Parameters.AddWithValue("@track", track.Text);
+
+                        if (trackF != null)
+                        {
+                            command6.Parameters.AddWithValue("@binary", Classes.Get.BytesFromFile(trackF.FullName));
+                        }
+                        else command6.Parameters.AddWithValue("@binary", DBNull.Value);
+
+                        command6.ExecuteNonQuery();
+                    }
+
                     using (SqlCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = "SELECT * FROM Executors " +
-                            "WHERE Name = @ex AND Country = @country AND Date = @found AND Image = @imageex";
-                        command.Parameters.AddWithValue("@ex", executor.Text);
+                        command.CommandText = "INSERT INTO Records(Track, Album, Executor) VALUES ((SELECT Id FROM Tracks WHERE Name = @track AND Binary = CAST(@binary AS varbinary(MAX)))," +
+                            " (SELECT Albums.Id FROM Albums WHERE Albums.Name = @album AND Image = @albumimg), " +
+                            "(SELECT Executers.Id FROM Executors WHERE Executors.Name = @executor AND Image = @eximg)";
 
-                        if (country.SelectedIndex > -1) command.Parameters.AddWithValue("@country", country.SelectedItem);
-                        else command.Parameters.AddWithValue("@country", DBNull.Value);
+                        command.Parameters.AddWithValue("@track", track.Text);
+                        command.Parameters.AddWithValue("@album", album.Text);
+                        command.Parameters.AddWithValue("@executor", executor.Text);
 
-                        if (found.Text != "") command.Parameters.AddWithValue("@found", found.Text);
-                        else command.Parameters.AddWithValue("@found", DBNull.Value);
+                        if (trackF != null)
+                        {
+                            command.Parameters.AddWithValue("@binary", Classes.Get.BytesFromFile(trackF.FullName));
+                        }
+                        else command.Parameters.AddWithValue("@binary", DBNull.Value);
+
+                        if (albumF != null)
+                        {
+                            using (SqlCommand command1 = connection.CreateCommand())
+                            {
+                                command1.CommandText = "EXEC FindImage @binary";
+
+                                command1.Parameters.AddWithValue("@binary", Classes.Get.BytesFromFile(albumF.FullName));
+
+                                using (SqlDataReader reader1 = command1.ExecuteReader())
+                                {
+                                    if (reader1.HasRows)
+                                    {
+                                        while (reader1.Read()) command.Parameters.AddWithValue("@albumimg", reader1[0]);
+                                    }
+                                    else
+                                    {
+                                        reader1.Close();
+
+                                        Classes.Add.NewImage(connection, albumF, command);
+                                    }
+                                }
+                            }
+                        }
+                        else command.Parameters.AddWithValue("@albumimg", DBNull.Value);
 
                         if (executorF != null)
                         {
@@ -188,7 +237,7 @@ namespace KP.Pages
                                 {
                                     if (reader1.HasRows)
                                     {
-                                        while (reader1.Read()) command.Parameters.AddWithValue("@imageex", reader1[0]);
+                                        while (reader1.Read()) command.Parameters.AddWithValue("@eximg", reader1[0]);
                                     }
                                     else
                                     {
@@ -199,118 +248,7 @@ namespace KP.Pages
                                 }
                             }
                         }
-                        else command.Parameters.AddWithValue("@imageex", DBNull.Value);
-
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            if (reader.HasRows)
-                            {
-                                reader.Close();
-                                using (SqlCommand command2 = connection.CreateCommand())
-                                {
-                                    command2.CommandText = "SELECT * FROM Albums " +
-                            "WHERE Name = @album AND Date = @release AND Image = @imagealb";
-                                    command2.Parameters.AddWithValue("@album", album.Text);
-
-                                    if (release.Text != "") command2.Parameters.AddWithValue("@release", release.Text);
-                                    else command2.Parameters.AddWithValue("@release", DBNull.Value);
-
-                                    if (albumF != null)
-                                    {
-                                        using (SqlCommand command3 = connection.CreateCommand())
-                                        {
-                                            command3.CommandText = "EXEC FindImage @binary";
-
-                                            command3.Parameters.AddWithValue("@binary", Classes.Get.BytesFromFile(albumF.FullName));
-
-                                            using (SqlDataReader reader3 = command3.ExecuteReader())
-                                            {
-                                                if (reader3.HasRows)
-                                                {
-                                                    while (reader3.Read()) command2.Parameters.AddWithValue("@imagealb", reader3[0]);
-                                                }
-                                                else
-                                                {
-                                                    reader3.Close();
-
-                                                    Classes.Add.NewImage(connection, albumF, command2);
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else command2.Parameters.AddWithValue("@imagealb", DBNull.Value);
-
-                                    using (SqlDataReader reader4 = command2.ExecuteReader())
-                                    {
-                                        if (reader4.HasRows)
-                                        {
-                                            reader4.Close();
-                                            using (SqlCommand command5 = connection.CreateCommand())
-                                            {
-                                                command5.CommandText = "SELECT * FROM Tracks " +
-                                        "WHERE Name = @track AND Binary = CAST(@binary AS varbinary(MAX))";
-                                                command5.Parameters.AddWithValue("@track", track.Text);
-
-                                                if (trackF != null)
-                                                {
-                                                    command5.Parameters.AddWithValue("@binary", Classes.Get.BytesFromFile(trackF.FullName));
-                                                }
-                                                else command5.Parameters.AddWithValue("@binary", DBNull.Value);
-                                                
-                                                using (SqlDataReader reader5 = command5.ExecuteReader())
-                                                {
-                                                    if (reader5.HasRows)
-                                                    {
-                                                        MessageBox.Show("Такой трек уже существует", "Ошибка", MessageBoxButton.YesNo, MessageBoxImage.Error);
-
-                                                        return;
-                                                    }
-                                                    else
-                                                    {
-                                                        reader5.Close();
-                                                        using (SqlCommand command6 = connection.CreateCommand())
-                                                        {
-                                                            command6.CommandText = "INSERT INTO Tracks(Name, Binary, Image) VALUES (@track, CAST(@binary AS varbinary(MAX)), NULL)";
-
-                                                            command6.Parameters.AddWithValue("@track", track.Text);
-
-                                                            if (trackF != null)
-                                                            {
-                                                                command6.Parameters.AddWithValue("@binary", Classes.Get.BytesFromFile(trackF.FullName));
-                                                            }
-                                                            else command6.Parameters.AddWithValue("@binary", DBNull.Value);
-
-                                                            command6.ExecuteNonQuery();
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {
-                                            reader4.Close();
-                                            NewAlb(connection);
-                                        }
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                reader.Close();
-                                NewEx(connection);
-                            }
-                        }
-                    }
-
-                    using (SqlCommand command = connection.CreateCommand())
-                    {
-                        command.CommandText = "INSERT INTO Records(Track, Album, Executor) VALUES ((SELECT Id FROM Tracks WHERE Name = @track AND Binary = @binary)," +
-                            " (SELECT Albums.Id FROM Albums INNER JOIN Images ON Images.Id = Albums.Image WHERE Albums.Name = @album AND Albums.Image = @albuming), (SELECT Id FROM Executors WHERE Name = @executor))";
-
-                        command.Parameters.AddWithValue("@track", track.Text);
-                        
-                        command.Parameters.AddWithValue("@album", album.Text);
-                        command.Parameters.AddWithValue("@executor", executor.Text);
+                        else command.Parameters.AddWithValue("@eximg", DBNull.Value);
 
                         command.ExecuteNonQuery();
                     }

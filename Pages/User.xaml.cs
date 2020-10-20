@@ -46,6 +46,11 @@ namespace KP.Pages
                                 {
                                     roles.Visibility = Visibility.Visible;
                                     users.Visibility = Visibility.Visible;
+                                    countries.Visibility = Visibility.Visible;
+                                }
+                                else if (reader[0].ToString() == "Редактор")
+                                {
+                                    countries.Visibility = Visibility.Visible;
                                 }
                             }
                         }
@@ -146,5 +151,9 @@ namespace KP.Pages
             Classes.Login.Value = "";
         }
 
+        private void countries_Click(object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(new Uri("Pages/Countries.xaml", UriKind.RelativeOrAbsolute));
+        }
     }
 }

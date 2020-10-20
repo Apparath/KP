@@ -26,16 +26,6 @@ namespace KP.Pages
         public Roles()
         {
             InitializeComponent();
-            
-        }
-
-        /// <summary>
-        /// Метод показа таблицы ролей после загрузки страницы ролей
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
             Classes.Get.TableOutput(rolesGrid, null, 5);
         }
 
@@ -163,6 +153,50 @@ namespace KP.Pages
         {
             Windows.Role window = new Windows.Role(false, null, rolesGrid);
             window.ShowDialog();
+        }
+
+        private void usersInRole_Click(object sender, RoutedEventArgs e)
+        {
+            if (rolesGrid.SelectedItem != null)
+            {
+                NavigationService.RemoveBackEntry();
+                NavigationService.Navigate(new UsersInRole(((DataRowView)rolesGrid.SelectedItem)[1]));
+            }
+            else
+            {
+                MessageBox.Show("Просматривать можно только по выделенной роли", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                return;
+            }
+        }
+
+        private void countOfRoles_Click(object sender, RoutedEventArgs e)
+        {
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connStr"].ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = connection.CreateCommand())
+                    {
+                        command.CommandText = "SELECT COUNT(Id) FROM Roles";
+
+                        MessageBox.Show("Количество ролей: " + command.ExecuteScalar().ToString());
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                    return;
+                }
+                finally
+                {
+                    connection.Close();
+                    searchBox.Text = "Поиск";
+                }
+            }
         }
     }
 }

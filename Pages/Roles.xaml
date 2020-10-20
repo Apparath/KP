@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:KP.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="419" d:DesignWidth="642"
-      Title="Roles" Loaded="Page_Loaded">
+      Title="Roles">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -22,6 +22,8 @@
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>
+                    <MenuItem x:Name="usersInRole" Header="Вывести пользователей в этой роли" Click="usersInRole_Click"/>
+                    <MenuItem x:Name="countOfRoles" Header="Число ролей" Click="countOfRoles_Click"/>
                     <MenuItem x:Name="add" Header="Добавить" Click="add_Click"/>
                     <MenuItem x:Name="edit" Header="Редактировать" Click="edit_Click"/>
                     <MenuItem x:Name="delete" Header="Удалить" Click="delete_Click"/>

@@ -23,7 +23,7 @@
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem x:Name="showExecutors" Header="Показать исполнителей в этом жанре" Click="showExecutors_Click"/>
-                    <Separator x:Name="sep"/>
+                    <MenuItem x:Name="countOfGenres" Header="Количество жанров" Click="countOfGenres_Click"/>
                     <MenuItem x:Name="add" Header="Добавить" Click="add_Click"/>
                     <MenuItem x:Name="edit" Header="Редактировать" Click="edit_Click"/>
                     <MenuItem x:Name="delete" Header="Удалить" Click="delete_Click"/>
